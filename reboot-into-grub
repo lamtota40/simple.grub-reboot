@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+import re
+import os
+
+def get_entries():
+    entries = []
+    grub_cfg_file = open('/boot/grub/grub.cfg', 'r')
+    for line in grub_cfg_file.readlines():
+        entries += re.findall(r"(?<=^menuentry\s').+?(?=')|(?<=^submenu\s').+?(?=')", line)
+    grub_cfg_file.close()
+    return entries
+
+if __name__ == '__main__':
+    entries = get_entries()
+    user_input = 0
+
+    while True:
+        print('Choose the entry to reboot into:')
+
+        for index, entry in enumerate(entries):
+            print('{}. {}'.format(index, entry))
+            
+        try:
+            input_str = input('input: ')
+            user_input = int(input_str)
+            if user_input >= 0 and user_input < len(entries):
+                break
+            else:
+                print('invalid entry number: "{}"'.format(input_str))
+        except ValueError:
+            print('invalid entry number: "{}"'.format(input_str))
+
+    print('rebooting into "{}"...'.format(entries[user_input]))
+    os.system(r"sudo grub-reboot {} && reboot".format(user_input))
