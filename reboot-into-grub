@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 
-import re
 import os
+import re
+import signal
+import sys
 
+# Handle ctrl-c signal
+def handle_signal(signal, frame):
+    sys.exit(0)
+    
+# Fetch current grub entries from '/boot/grub/grub.cfg' file
 def get_entries():
     entries = []
     grub_cfg_file = open('/boot/grub/grub.cfg', 'r')
@@ -12,6 +19,8 @@ def get_entries():
     return entries
 
 if __name__ == '__main__':
+    signal.signal(signal.SIGINT, handle_signal)
+    
     entries = get_entries()
     user_input = 0
 
@@ -20,6 +29,8 @@ if __name__ == '__main__':
 
         for index, entry in enumerate(entries):
             print('{}. {}'.format(index, entry))
+        
+        print('*. press ctrl-c to terminate the process!')
             
         try:
             input_str = input('input: ')

@@ -14,6 +14,7 @@ Choose the entry to reboot into:
 1. Advanced options for Ubuntu
 2. Windows Boot Manager (on /dev/sda1)
 3. UEFI Firmware Settings
+*. press ctrl-c to terminate the process!
 input: 0
 rebooting into "Ubuntu"...
 ```
