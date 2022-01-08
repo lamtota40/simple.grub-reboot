@@ -41,6 +41,8 @@ if __name__ == '__main__':
                 print('invalid entry number: "{}"'.format(input_str))
         except ValueError:
             print('invalid entry number: "{}"'.format(input_str))
+    
+        print()
 
     print('rebooting into "{}"...'.format(entries[user_input]))
     os.system(r"sudo grub-reboot {} && reboot".format(user_input))
